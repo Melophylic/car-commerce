@@ -1,15 +1,34 @@
-@import "tailwindcss/base";
+/* @import "tailwindcss/base";
 
 @import "tailwindcss/components";
 
-@import "tailwindcss/utilities";
+@import "tailwindcss/utilities"; */
 
 .text-2xl {
     font-size: 1.5rem; /* Adjust font size for text-2xl class */
     font-weight: bold; /* Add font weight for headings */
 }
 
+.header {
+    display: flex;
+    align-items: center;
+}
 
+.header-logo {
+    margin: 10px;
+    margin-left: 10rem;
+}
+
+.header-buttons {
+    display: flex;
+    flex: content;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 12rem;
+    margin-left: auto;
+    margin-right: 10rem;
+    
+}
 
 body {
     font-family: Arial, sans-serif; /* Set font family for body text */
