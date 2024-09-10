@@ -30,6 +30,19 @@
     
 }
 
+.hero {
+    display: flex;
+    align-items: center;
+}
+
+.hero-main-text {
+    height: max-content;
+    display: flex;
+    flex:content;
+    align-items: center;
+    justify-content: center;
+}
+
 body {
     font-family: Arial, sans-serif; /* Set font family for body text */
     margin: 0; /* Remove default margin */
