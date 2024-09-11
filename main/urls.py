@@ -5,4 +5,5 @@ app_name = 'main'
 
 urlpatterns = [
     path('', show_main, name='show_main'),
+    # path('', show_me, name='show_me')
 ]

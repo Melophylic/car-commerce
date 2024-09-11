@@ -1,4 +1,63 @@
 # car-commerce
 
-testing
-testing
+Nama: Muhammad Nadzim Tahara
+NPM: 2306275430
+Kelas: PBP C
+
+Pada tugas kali ini, saya ditugaskan untuk membuat sebuah web sederhana yang meng-implementsaikan *Model-View-Template* (MVT) pada Django. Tugas ini sangatlah mirip dengan tutorial 1 yang diberikan minggu lalu pada pelajaran PBP.
+
+Berikut step-by-step pembuatan website MVT car-commerce:
+
+Pertama, saya membuat sebuah direktori baru di file explorer dengan nama e-commerce. Kemudian saya membuka direktori tersebut pada VSCode. saya menginisiasikan sebuah repo pada github dengan nama car-commerce. Setelah itu saya menyalin link pada commerce dan membuat menghubungkan direktori e-commerce dengan repositori car-commerce dengan cara:
+
+> git init //untuk menginisiasi git pada direktori
+
+> git remote add origin (link_url_github) //untuk menghubungkan direktori dengan repositori github
+
+Kedua, Di dalam VSCode, pada terminal, saya menginisiasikan sebuah aplikasi Django dengan membuat sebuah Virtual Enviroment dengan cara menuliskan
+
+> python -m venv env
+
+ini membuat folder baru bernama **env**.
+
+kemudian kita aktifkan virtual enviroment kita dengan 
+
+> env\Scripts\activate
+
+dengan baris tersebut, saya menjalankan script activate yang terdapat pada direktori env\Scripts\activate. Dengan demikian virtual enviroment berhasil diinisiasikan dan akan terlihat **(env)** pada awal baris terminal.
+
+
+Ketiga, saya menyiapkan dependencies kita dengan membuat berkas requirements.txt yang berisi:
+
+django
+gunicorn
+whitenoise
+psycopg2-binary
+requests
+urllib3
+
+ini diperlukan untuk memudahkan instalasi jika diperlukan baik secara lokal, maupun server.
+
+selanjutnya kita install pada virtual enviroment dengan:
+
+> pip install -r requirements.txt
+
+dimana -r merupakan perintah untuk membaca isi dari requirements.txt dan menginstall setiap dependencies yang ada di .txt file tersebut.
+
+akhirnya, saya membuat sebuah proyek django dengan menuliskan:
+
+> django-admin startproject car_commerce
+
+ini akan membuat sebuah folder car_commerce dengan isi-isinya.
+
+agar kita dapat menjalankan localhost, perlu dilakukan perubahan pada settings.py di dalam direktori proyek car_commerce.
+
+pada variabel ALLOWED_HOST, kita tambahkan
+> [
+> ...,
+> 'main'
+>]
+
+untuk mendaftarkan 
+
+
