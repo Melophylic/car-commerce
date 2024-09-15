@@ -12,4 +12,3 @@ class Product(models.Model):
 #     nama=models.CharField(max_length=255)
 #     npm=models.IntegerField()
 #     kelas=models.CharField(max_length=255)
-
