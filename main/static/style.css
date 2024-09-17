@@ -1,12 +1,6 @@
-/* @import "tailwindcss/base";
-
-@import "tailwindcss/components";
-
-@import "tailwindcss/utilities"; */
-
 .text-2xl {
-    font-size: 1.5rem; /* Adjust font size for text-2xl class */
-    font-weight: bold; /* Add font weight for headings */
+    font-size: 1.5rem; 
+    font-weight: bold; 
 }
 
 .header {
@@ -50,7 +44,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif; /* Set font family for body text */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
+    font-family: Arial, sans-serif; 
+    margin: 0;
+    padding: 0; 
 }
