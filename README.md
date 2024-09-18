@@ -26,9 +26,11 @@ Kelas: PBP C
 
 5. Cara mengimplementasikan checklist secara step-by-step (bukan hanya sekadar mengikuti tutorial)
 
+Pertama, saya menambahkan base.html sebagai html utama saya pada direktori templates yang ada di direktori proyek utama. Setelah itu saya tambahkan direktori templates pada settings.py. Setelah itu, pada base.html dan main.html saya menambahkan link Django templates tag agar base.html dapat terektensikan oleh templates lainnya sebagai template utama. Setelah itu saya fokus pada models.py. Disana saya menambahkan variabel uuid pada class Product agar dapat diakses oleh XML dan JSON nantinya. Setelah itu, saya membuat forms.py sebagai ektension dari main.html. Disana saya mengisi dengan csrf dan forms.py yang berisi meta dari forms yang saya ingin buat. Setelah itu saya membuat keempat kode XML dan JSON yang ada dengan views.py methods nya. Terakhir saya menambahkan semua path() pada urls.py agar dapat diaksaes pada main.html.
 
 
-6. Lampiran Postman
+
+7. Lampiran Postman
 ![Screenshot 2024-09-18 111017](https://github.com/user-attachments/assets/ba2503c8-1007-4e70-bad9-ac27559951e4)
 ![Screenshot 2024-09-18 111035](https://github.com/user-attachments/assets/86362ada-bafa-482e-84ff-417aee9a8462)
 ![Screenshot 2024-09-18 110935](https://github.com/user-attachments/assets/59553909-61fa-4de0-b949-0d9ba6e40d3e)
