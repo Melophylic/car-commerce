@@ -1,8 +1,16 @@
 # car-commerce
 
 Nama: Muhammad Nadzim Tahara
+
 NPM: 2306275430
+
 Kelas: PBP C
+
+# Tugas 3
+
+
+
+# Tugas 2
 
 Pada tugas kali ini, saya ditugaskan untuk membuat sebuah web sederhana yang meng-implementsaikan *Model-View-Template* (MVT) pada Django. Tugas ini sangatlah mirip dengan tutorial 1 yang diberikan minggu lalu pada pelajaran PBP.
 
