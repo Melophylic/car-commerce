@@ -33,32 +33,33 @@
             <p>{{ npm }}</p>
             <p>{{ kelas }}</p>
         </div>
-
-        {% if not products %}
-        <p>Belum ada product</p>
-        {% else %}
-        <table>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Description</th>
-        </tr>
-
-        {% for product in products %}
-        <tr>
-            <td>{{product.name}}</td>
-            <td>{{product.price}}</td>
-            <td>{{product.description}}</td>
-        </tr>
-        {% endfor %}
-        </table>
-        {% endif %}
-
-        <br />
-
-        <a href="{% url 'main:create_product' %}">
-        <button>Add Product</button>
-        </a>
+        <div class="products">
+            {% if not products %}
+            <p>Belum ada product</p>
+            {% else %}
+            <table>
+            <tr class="product-header">
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+            </tr>
+    
+            {% for product in products %}
+            <tr class="product-info">
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.description}}</td>
+            </tr>
+            {% endfor %}
+            </table>
+            {% endif %}
+    
+            <br />
+    
+            <a href="{% url 'main:create_product' %}">
+            <button>Add Product</button>
+            </a>
+        </div>
         {% endblock content %}
         <!-- <div class="hero">
             <div class="hero-main-text">

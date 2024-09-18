@@ -8,6 +8,27 @@ Kelas: PBP C
 
 # Tugas 3
 
+1. Mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform? 
+
+> Data delivery penting karena berguna pada hampir semua platfrom modern yang berinteraksi dengan banyak komponen yang memerlukan data. Data delivery berfungsi sebagai pembawa data kepada client yang melakukan sebuah request ke sebuah server. Data Delivery mencakup HTTP, JSON, XML, AJAX< jQuery, WebSocket, dan HTTP/HTTPS.
+
+2. Mana yang lebih baik anatara XML dan JSON? Mengapa JSON lebih populer dibandingkan dengan XML?
+
+> XML dan JSON memiliki kelebihan dan kekurangan masing-masing. Salah satu kelebihan dari XML adalah kita dapat melihat struktur hierarkis dan metadata yang lebih luas dan lengkap dengan XML karena mempunyai struktur layaknya tree. XML cocok untuk data yang mempunyai hierarki yang banyak dan lebih kompleks.
+
+> Sedangkan kelebihan JSON dan mengapa JSON lebih dipopuleri adalah dia lebih ringan dan lebih mudah dibaca oleh manusia. JSON juga mudah untuk diintegrasikan dengan JavaScript.
+
+> Method is_valid() pada form Django digunakan untuk memeriksa apakah data yang dikirimkan oleh client melalui form sesuai dengan aturan atau validasi yang telah didefinisikan di form pada models.py. Jika apa yang diisi oleh client sesuai dengan apa yang telah ditetapkan pada models.py, method ini akan mengembalikan nilai True, dan kita bisa melanjutkan proses seperti menyimpan data ke database. Jika validasi gagal, method ini akan mengembalikan False dan form akan menyertakan pesan kesalahan. Ini diperlukan untuk menghindari error karena tipe data yang diisi oleh client tidak sesuai dengan tipe data yang ada di models.py.
+
+4. Mengapa kita membutuhkan csrf_token saat membuat form di Django? 
+
+> csrf_token diperlukan untuk melindungi aplikasi dari serangan CSRF (Cross-Site Request Forgery). CSRF adalah jenis serangan di mana penyerang memalsukan permintaan dari user yang bener untuk melakukan tindakan yang berbahaya, contohnya mengubah pengaturan akun atau melakukan transaksi atas nama user. Jika kita tidak menambahkan csrf_token, penyerang bisa memanfaatkan kelemahan keamanan tersebut untuk melakukan serangan CSRF. Sebagai contoh, penyerang bisa membuat tautan atau form berbahaya yang, jika diklik oleh user yang sedang login, akan mengirimkan permintaan ke server tanpa diketahui oleh user. csrf_token memastikan bahwa setiap form yang dikirim berasal dari sumber yang bener dengan memverifikasi token unik yang ada pada dalam form.
+
+5. Cara mengimplementasikan checklist secara step-by-step (bukan hanya sekadar mengikuti tutorial)
+
+
+
+
 
 
 # Tugas 2

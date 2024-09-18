@@ -43,6 +43,25 @@
     justify-content: space-around;
 }
 
+.products{
+    display: flex;
+    flex-direction: column;
+    flex: content;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 20rem;
+    margin: auto;
+}
+
+.product-header
+
+
+.product-info {
+    text-align: center;
+}
+        
+
 body {
     font-family: Arial, sans-serif; 
     margin: 0;
