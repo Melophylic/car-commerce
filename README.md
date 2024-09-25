@@ -8,7 +8,7 @@ Kelas: PBP C
 
 # Tugas 4
 
-## Apa perbedaan antara `HttpResponseRedirect()` dan `redirect`
+## Apa perbedaan antara `HttpResponseRedirect()` dan `redirect`?
 
 Perbedaan antara kedua methods tersebut secara singkat adalah `HttpResponseRedirect()` merupakan method yang akan mengembalikan status HTTP 302 yang akan mengalihkan client ke sebuah URL yang baru dengan argument sebuah url. Sedangkan `redirect()` melakukan hal yang sama, namun lebih fleksibel dengan cara memakai argument path seperti contohnya pada kasus ini (main:login) atau nama pada path di urls.py.
 
@@ -31,8 +31,76 @@ return redirect('nama-path')
 ...
 ```
 
+## Bagaimana cara kerja penghubungan model `Product` dengan `User`?
 
-## 
+Cara kerja model `Product` dengan `User` adalah dengan menggunakan `ForeignKey`.
+
+```
+class Product(models.Model):
+...
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+...
+```
+
+ForeignKey tersebut akan menghubungkan `User` dengan setiap object `Product` yang dibuat oleh `User` tersebut.
+
+Jika `User` menambahkan `Product`, maka data akan disimpan dan dapat dishow dengan menggunakan `filter()`, contoh:
+
+```
+def show_main(request):
+    products = Product.objects.filter(user=request.user)
+```
+
+Jika `User` dihapus, maka berdasarkan `on_delete=models.CASCADE`, product yang berkaitan dengan `User` akan ikut terhapus juga.
+
+## Apa perbedaan antara _authentication_ dan _authorization_, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
+
+### _Authentication_
+Authentication pada Django merupakan konsep/proses untuk memverifikasi apakah user sesuai dengan database kredensial pengguna seperti username dan password atau tidak. Hal ini dilakukan untuk memastikan apakah pengguna tersebut valid atau tidak.
+
+### _Authorization_
+Authorization pada Django biasanya dilakukan setelah _Authentication_. _Authorization_ merupakan sebuah konsep/proses dimana user tersebut diberikan hak akses terhadap fitur-fitur yang telah diatur oleh website/program yang ingin dipakai.
+
+> Jadi perbedaan mereka adalah _Authentication_ merupakan proses pencocokan data, sedangkan _Authorization_ merupakan proses pemberian hak akses terhadap data dan/atau fitur.
+
+### Implementasi pada Django
+
+pada Django, kita dapat melakukan _Authentication_ dengan menggunakan method `authenticate` untuk melakukan proses login seperti contoh berikut ini:
+
+```
+from django.contrib.auth import authenticate, login
+
+def login_user(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            response = HttpResponseRedirect(reverse("main:show_main"))
+            response.set_cookie('last_login', str(datetime.datetime.now()))
+            return response
+
+    else:
+        form = AuthenticationForm(request)
+    context = {'form': form}
+    return render(request, 'login.html', context)
+
+```
+
+Pada contoh ini, kita menggunakan `form = AuthenticationForm(request)` yang merupakan sebuah class yang menggunakan method authenticate untuk melakukan _Authentication_ pada data.
+
+Sedangkan, untuk melakukan _Authorization_, sebagai contoh kita dapat menggunakan Django decorators sebagai _gatekeeper_ dari laman utama kita, seperti contoh berikut ini:
+
+```
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/login')
+def show_main(request):
+    ...
+    return render(request, "main.html", object)
+```
+
 
 
 # Tugas 3
