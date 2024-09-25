@@ -212,7 +212,7 @@ class Product(models.Model):
     ...
 ```
 
-dan kemudian agar Django hanya menunjukkan items yang terkait pada user, saya mengganti products pada show_main dari `products = Product.objects.all()` dan `products = Product.objects.filter(user=request.user)`
+dan kemudian agar Django hanya menunjukkan items yang terkait pada user, saya mengganti products pada show_main dari `products = Product.objects.all()` menjadi `products = Product.objects.filter(user=request.user)`.
 
 
 
