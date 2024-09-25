@@ -6,6 +6,35 @@ NPM: 2306275430
 
 Kelas: PBP C
 
+# Tugas 4
+
+## Apa perbedaan antara `HttpResponseRedirect()` dan `redirect`
+
+Perbedaan antara kedua methods tersebut secara singkat adalah `HttpResponseRedirect()` merupakan method yang akan mengembalikan status HTTP 302 yang akan mengalihkan client ke sebuah URL yang baru dengan argument sebuah url. Sedangkan `redirect()` melakukan hal yang sama, namun lebih fleksibel dengan cara memakai argument path seperti contohnya pada kasus ini (main:login) atau nama pada path di urls.py.
+
+### HttpResponseRedirect()
+```
+from django.http import HttpResponseRedirect
+
+...
+return HttpResponseRedirect('/sebuah-url/')
+...
+```
+
+### redirect()
+
+```
+from django.shortcuts import redirect
+
+...
+return redirect('nama-path')
+...
+```
+
+
+## 
+
+
 # Tugas 3
 
 1. Mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform? 
