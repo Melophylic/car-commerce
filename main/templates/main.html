@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {%block content%}
+{% include 'navbar.html' %}
+<div class="absolute z-0">
+    {% include 'background.html' %}
+  </div>
 {% load static %}
 
 <!DOCTYPE html>
@@ -7,28 +11,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <title>Car Commerce</title>
 </head>
     <body>
-        <div class="header">
-            <div class="header-logo">
-                <h1>Car Commerce</h1>
-            </div>
-            <div class="header-buttons">
-                <p>Menu</p>
-                <p>Cart</p>
-                <p>Account</p>
-            </div>
-        </div>
-        
-        <div class="hero-main-text">
-            <p>{{ name }}</p>
-            <p>{{ price }}</p>
-            <p>{{ description }}</p>
-        </div>
-
-        <div class="name-text">
+        <!-- <div class="name-text">
             <p>{{ nama }}</p>
             <p>{{ npm }}</p>
             <p>{{ kelas }}</p>
@@ -49,22 +35,44 @@
                 <td>{{product.name}}</td>
                 <td>{{product.price}}</td>
                 <td>{{product.description}}</td>
+                <td>
+                    <a href="{% url 'main:edit_product' product.pk %}">
+                        <button>
+                            Edit
+                        </button>
+                    </a>
+                </td>
             </tr>
             {% endfor %}
             </table>
             {% endif %}
     
-            <br />
-    
-            <a href="{% url 'main:create_product' %}">
-            <button>Add Product</button>
-            </a>
-            <a href="{% url 'main:logout' %}">
-                <button>Logout</button>
-            </a>
-            <h5>Sesi terakhir login: {{ last_login }}</h5>
-        </div>
-        {% endblock content %}
+            <br /> -->
+            <div class="relative z-10 mt-10">
+                <div class="justify-center mx-20 items-center">
+                    {% if not products %}
+                    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                        <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+                    <p class="text-center text-gray-600 mt-4">Belum ada data mood pada mental health tracker.</p>
+                    </div>
+                    {% else %}
+                    <div class="flex flex-wrap columns-1 sm:columns-2 lg:columns-3 gap-6 w-full h-max justify-evenly">
+                        {% for product in products %}
+                            {% include 'card_product.html' with product=product %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="flex justify-center mt-10">
+                    <a href="{% url 'main:create_product' %}" class="text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                    <button>Add Product</button>
+                    </a>
+                </div>
+
+                    
+                </div>
+                
+            </div>
         <!-- <div class="hero">
             <div class="hero-main-text">
                 <h1>
@@ -76,4 +84,9 @@
             
         </script>
     </body>
+    <footer>
+        <h5 class="text-center text-slate-50 absolute bottom-0">Sesi terakhir login: {{ last_login }}</h5>
+    </footer>
 </html>
+
+{% endblock content %}
