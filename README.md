@@ -6,6 +6,202 @@ NPM: 2306275430
 
 Kelas: PBP C
 
+# Tugas 5
+
+## Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+
+CSS mempunyai beberapa selector dan setiap selector tersebut mempunyai prioritas pengaplikasian yang berbeda-beda. Urutan dari prioritas tersebut adalah
+### 1. !important
+!important akan memaksa CSS tersebut untuk dipakai walaupun prioritas dasarnya lebih rendah dibandingkan CSS lainnya.
+
+### 2. Inline Style
+Inline style terletak pada tag html itu sendiri akan diutamakan pertama seperti `<div style="opacity: 100">`
+
+### 3. ID Selector
+ID selector seperti `#header` akan lebih diutamakan dibandingkan class, dsb. Ditandai dengan # didepannya, dan cara memakaikannya dengan menaruh `id=` pada dalam tag html.
+
+### 4. Class, Pseudo-class, dan Attribute Selector
+Class, pseudo-class, dan Attribute selector seperti `.nav atau :hover` mempunyai prioritas yang sama. Jika kita menaruh CSS secara bersamaan, yang akan diutamakan adalah yang terakhir disematkan.
+
+### 5. Tag Selector
+Tag selector seperti `div > p {}`, dsb. akan diutamakan selanjutnya. Tag selector ini akan memakaikan CSS pada tag yang merupakan child dari tag di kiri.
+
+## Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan _responsive design_!
+
+Responsivitas pada web penting karena SEO Google dan lainnya lebih mementingkan website yang mempunyai responsivitas yang tinggi. Responsivitas itu sendiri dihitung dari bagaimana layout website ketika user menggunakan ukuran layar yang berbeda dan UX pada aplikasi itu sendiri seperti _loading time_ dan lainnya.
+
+Contoh aplikasi yang menerapkan responsive design biasanya berasal dari perusahaan besar seperti YouTube, Facebook, Instagram, dst. Sedangkan yang belum memakai biasanya merupakan situs lokal seperti situs toko rumahan.
+
+## Jelaskan perbedaan antara _margin, border,_ dan _padding_, serta cara untuk mengimplementasikan ketiga hal tersebut!
+
+### Margin
+Margin adalah ruang di luar elemen yang memisahkan elemen tersebut dari elemen lain. Margin ini, biasanya digunakan untuk memberi jarak antara elemen pada suatu div.
+
+Vanilla CSS
+```
+div {
+  margin: 20px; 
+}
+```
+
+TailwindCSS
+```
+<div class="border-2"> </div>
+```
+
+### Border 
+Border merupakan garis yang berada di sekitar elemen yang membungkus konten dan padding elemen. Border ini dapat memiliki ketebalan, warna, dan gaya yang berbeda.
+
+Vanilla CSS
+```
+div {
+  border: 2px solid black; 
+}
+```
+
+TailwindCSS
+```
+<div class="border-2"> </div>
+```
+
+### Padding
+Ruang di dalam elemen, antara konten elemen dan border. Padding memperbesar ruang di dalam elemen tanpa mengubah ukuran border atau margin.
+
+Vanilla CSS
+```
+div {
+  padding: 10px;  
+}
+```
+
+TailwindCSS
+```
+<div class="p-2"> </div>
+```
+
+## Jelaskan konsep _flex box_ dan _grid layout_ beserta kegunaannya!
+
+### Flexbox (Flexible Box Layout)
+Flexbox biasanya digunakan untuk mengatur tata letak elemen dalam satu dimensi (baris atau kolom). Flexbox memudahkan pengaturan perataan, ukuran, dan distribusi ruang di antara item, terutama ketika ukuran layar berubah.
+
+Penerapan:
+- Mengatur tata letak menu horizontal atau vertikal.
+- Mengatur grid kartu produk yang responsif.
+  
+Contoh:
+```
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+```
+
+### Grid Layout
+Digunakan untuk membuat tata letak dua dimensi, baik baris maupun kolom. Grid layout memungkinkan kita untuk mengatur elemen-elemen di dalam grid dengan lebih fleksibel dibandingkan Flexbox.
+
+Penerapan:
+- Mengatur tata letak halaman dengan area seperti header, sidebar, konten utama, dan footer.
+- Mengatur galeri foto dengan baris dan kolom yang dinamis.
+- 
+Contoh:
+```
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 10px;
+}
+```
+
+## Cara implementasi
+
+Pertama kita buat dulu fungsi `edit_product` dan `delete_product` pada `views.py` di `main`:
+```
+def edit_product(request, id):
+    product = Product.objects.get(id=id)
+
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+    
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+
+def delete_product(request, id):
+    product = Product.objects.get(id=id)
+    product.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+```
+
+selanjutnya buat path di `urls.py` seperti biasanya.
+
+setelah itu, kita buat CSS menggunakan TailwindCSS pada setiap html-nya.
+
+Caranya menambahkan script pada `base.html` di tag `<head>`:
+```
+<script src="https://cdn.tailwindcss.com"></script>
+```
+
+Selanjutnya, untuk setiap HTML yang kita buat, kita akan bisa memakai TailwindCSS.
+
+Maka dari itu, kita buat html untuk `edit_product.html`:
+
+```
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta %}
+<title>Edit Product</title>
+{% endblock meta %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="absolute z-0">
+    {% include 'background.html' %}
+  </div>
+<div class="relative z-10">
+    <div class="flex flex-col min-h-screen">
+        <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
+          <h1 class="text-3xl font-bold text-center mb-8 text-white">Edit Product</h1>
+        
+          <div class=" rounded-lg p-6 form-style">
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="flex flex-col">
+                        <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-white">
+                            {{ field.label }}
+                        </label>
+                        <div class="w-full">
+                            {{ field }}
+                        </div>
+                        {% if field.help_text %}
+                            <p class="mt-1 text-sm text-white">{{ field.help_text }}</p>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <div class="flex justify-center mt-6">
+                    <button type="submit" class="bg-yellow-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-yellow-700 transition duration-300 ease-in-out w-full">
+                        Edit Product
+                    </button>
+                </div>
+            </form>
+        </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}
+```
+
+dan edit html lainnya.
+
+
 # Tugas 4
 
 ## Apa perbedaan antara `HttpResponseRedirect()` dan `redirect`?
