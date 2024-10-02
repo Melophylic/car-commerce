@@ -6,6 +6,21 @@ NPM: 2306275430
 
 Kelas: PBP C
 
+# Tugas 5
+
+## Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+
+CSS mempunyai beberapa selector dan setiap selector tersebut mempunyai prioritas pengaplikasian yang berbeda-beda. Urutan dari prioritas tersebut adalah
+
+### 1. Inline Style
+
+
+### 2. ID Selector
+### 3. Class, Pseudo-class, dan Attribute Selector
+### 4. Tag Selector
+### 5. !important
+
+
 # Tugas 4
 
 ## Apa perbedaan antara `HttpResponseRedirect()` dan `redirect`?
