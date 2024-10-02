@@ -82,18 +82,25 @@
         </div> -->
         <script>
             document.addEventListener("DOMContentLoaded", (event) => {
+                gsap.fromTo(".navv", {
+                    y: -100,
+                    }, {
+                    y: 0,
+                    duration: 1
+                })
+
                 gsap.fromTo('.stagger-box', {
                     opacity: 0
                 },{
                     delay: 1,
                     opacity: 1,
                     stagger: 0.5,
-                    duration: document.getElementsByClassName("stagger-box").length,
-                    ease: 'elastic',
+                    duration: document.getElementsByClassName("stagger-box").length * 1.5,
+                    ease: 'ease-in-out',
                     stagger: {
                         each: 0.5,
                 }
-            })
+                })
                 gsap.fromTo('#add-product', {
                     opacity: 0,
                     y: 50
