@@ -4,14 +4,20 @@
 <title>Login</title>
 {% endblock meta %}
 
+{% load static %}
+
 {% block content %}
 <div class="absolute z-0">
   {% include 'background.html' %}
 </div>
-<div class="z-10 min-h-screen flex items-center justify-center w-screen py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8">
-    <div>
-      <h2 class="mt-6 text-center text-white text-3xl font-extrabold 0">
+<div class=" z-10 min-h-screen flex items-center justify-center w-screen py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8 bg-white opacity-100 px-8 pt-12 pb-20 rounded-lg">
+    <div class="flex flex-col items-center">
+      <div class=" flex align-baseline items-center mb-16">
+        <img src="{% static 'image/caryellow.png' %}" alt="logo" class="w-16 mb-[-0.8rem] mr-2">
+        <p class="text-2xl font-semibold text-black">Car Commerce</p>
+      </div>
+      <h2 class="mb-2 text-center text-black text-3xl font-bold 0">
         Login to Car Commerce
       </h2>
     </div>
@@ -57,9 +63,9 @@
     {% endif %}
 
     <div class="text-center mt-4 relative z-10">
-      <p class="text-sm text-white">
+      <p class="text-sm text-black">
         Don't have an account yet?
-        <a href="{% url 'main:register' %}" class="font-medium text-yellow-200 hover:text-yellow-300">
+        <a href="{% url 'main:register' %}" class="font-medium text-yellow-400 hover:text-yellow-300">
           Register Now
         </a>
       </p>

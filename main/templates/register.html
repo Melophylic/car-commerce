@@ -11,9 +11,9 @@
   </div>
 </div>
 <div class="z-10 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8 form-style">
+  <div class="bg-white px-8 pt-12 pb-20 rounded-lg text-black max-w-md w-full space-y-8 form-style">
     <div>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-white">
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-black">
         Create your account
       </h2>
     </div>
@@ -23,7 +23,7 @@
       <div class="rounded-md shadow-sm -space-y-px">
         {% for field in form %}
           <div class="{% if not forloop.first %}mt-4{% endif %}">
-            <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-white">
+            <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-black">
               {{ field.label }}
             </label>
             <div class="relative ">
@@ -63,9 +63,9 @@
     {% endif %}
 
     <div class="text-center mt-4 relative z-10">
-      <p class="text-sm text-white">
+      <p class="text-sm text-black">
         Already have an account?
-        <a href="{% url 'main:login' %}" class="font-medium text-yellow-200 hover:text-yellow-300">
+        <a href="{% url 'main:login' %}" class="font-medium text-yellow-400 hover:text-yellow-300">
           Login here
         </a>
       </p>
