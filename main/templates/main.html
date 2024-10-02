@@ -51,9 +51,9 @@
             <div class="relative z-10 mt-10">
                 <div class="justify-center mx-20 items-center">
                     {% if not products %}
-                    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
-                        <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
-                    <p class="text-center text-gray-600 mt-4">Belum ada data mood pada mental health tracker.</p>
+                    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6" id="belum-ada">
+                        <img src="{% static 'image/caryellow.png' %}" alt="Sad face" class="w-72 mb-[-2rem]"/>
+                    <p class="text-center text-white mt-4 font-bold ">Belum ada data pada Car Commerce!</p>
                     </div>
                     {% else %}
                     <div class="flex flex-wrap columns-1 sm:columns-2 lg:columns-3 gap-6 w-full h-max justify-evenly">
@@ -63,8 +63,8 @@
                     </div>
                     {% endif %}
                 </div>
-                <div class="flex justify-center mt-10">
-                    <a href="{% url 'main:create_product' %}" class="text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                <div class="flex justify-center mt-10" id="add-product">
+                    <a href="{% url 'main:create_product' %}" class="text-white bg-yellow-500 hover:bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-500 dark:focus:ring-yellow-300bg-yellow-300">
                     <button>Add Product</button>
                     </a>
                 </div>
@@ -81,7 +81,38 @@
             </div>
         </div> -->
         <script>
-            
+            document.addEventListener("DOMContentLoaded", (event) => {
+                gsap.fromTo('.stagger-box', {
+                    opacity: 0
+                },{
+                    delay: 1,
+                    opacity: 1,
+                    stagger: 0.5,
+                    duration: document.getElementsByClassName("stagger-box").length,
+                    ease: 'elastic',
+                    stagger: {
+                        each: 0.5,
+                }
+            })
+                gsap.fromTo('#add-product', {
+                    opacity: 0,
+                    y: 50
+                }, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 2,
+                    delay: 2,
+                    ease: 'ease-in-out'
+                })
+
+                gsap.fromTo('#belum-ada', {
+                    opacity: 0
+                }, {
+                    opacity: 1,
+                    duration: 2,
+                    delay: 1
+                })
+            })
         </script>
     </body>
     <footer>
