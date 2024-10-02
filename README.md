@@ -79,7 +79,128 @@ TailwindCSS
 <div class="p-2"> </div>
 ```
 
-## 
+## Jelaskan konsep _flex box_ dan _grid layout_ beserta kegunaannya!
+
+### Flexbox (Flexible Box Layout)
+Flexbox biasanya digunakan untuk mengatur tata letak elemen dalam satu dimensi (baris atau kolom). Flexbox memudahkan pengaturan perataan, ukuran, dan distribusi ruang di antara item, terutama ketika ukuran layar berubah.
+
+Penerapan:
+- Mengatur tata letak menu horizontal atau vertikal.
+- Mengatur grid kartu produk yang responsif.
+  
+Contoh:
+```
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+```
+
+### Grid Layout
+Digunakan untuk membuat tata letak dua dimensi, baik baris maupun kolom. Grid layout memungkinkan kita untuk mengatur elemen-elemen di dalam grid dengan lebih fleksibel dibandingkan Flexbox.
+
+Penerapan:
+- Mengatur tata letak halaman dengan area seperti header, sidebar, konten utama, dan footer.
+- Mengatur galeri foto dengan baris dan kolom yang dinamis.
+- 
+Contoh:
+```
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 10px;
+}
+```
+
+## Cara implementasi
+
+Pertama kita buat dulu fungsi `edit_product` dan `delete_product` pada `views.py` di `main`:
+```
+def edit_product(request, id):
+    product = Product.objects.get(id=id)
+
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+    
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+
+def delete_product(request, id):
+    product = Product.objects.get(id=id)
+    product.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+```
+
+selanjutnya buat path di `urls.py` seperti biasanya.
+
+setelah itu, kita buat CSS menggunakan TailwindCSS pada setiap html-nya.
+
+Caranya menambahkan script pada `base.html` di tag `<head>`:
+```
+<script src="https://cdn.tailwindcss.com"></script>
+```
+
+Selanjutnya, untuk setiap HTML yang kita buat, kita akan bisa memakai TailwindCSS.
+
+Maka dari itu, kita buat html untuk `edit_product.html`:
+
+```
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta %}
+<title>Edit Product</title>
+{% endblock meta %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="absolute z-0">
+    {% include 'background.html' %}
+  </div>
+<div class="relative z-10">
+    <div class="flex flex-col min-h-screen">
+        <div class="container mx-auto px-4 py-8 mt-16 max-w-xl">
+          <h1 class="text-3xl font-bold text-center mb-8 text-white">Edit Product</h1>
+        
+          <div class=" rounded-lg p-6 form-style">
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="flex flex-col">
+                        <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-white">
+                            {{ field.label }}
+                        </label>
+                        <div class="w-full">
+                            {{ field }}
+                        </div>
+                        {% if field.help_text %}
+                            <p class="mt-1 text-sm text-white">{{ field.help_text }}</p>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <div class="flex justify-center mt-6">
+                    <button type="submit" class="bg-yellow-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-yellow-700 transition duration-300 ease-in-out w-full">
+                        Edit Product
+                    </button>
+                </div>
+            </form>
+        </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}
+```
+
+dan edit html lainnya.
+
 
 # Tugas 4
 
