@@ -11,15 +11,75 @@ Kelas: PBP C
 ## Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
 
 CSS mempunyai beberapa selector dan setiap selector tersebut mempunyai prioritas pengaplikasian yang berbeda-beda. Urutan dari prioritas tersebut adalah
+### 1. !important
+!important akan memaksa CSS tersebut untuk dipakai walaupun prioritas dasarnya lebih rendah dibandingkan CSS lainnya.
 
-### 1. Inline Style
+### 2. Inline Style
+Inline style terletak pada tag html itu sendiri akan diutamakan pertama seperti `<div style="opacity: 100">`
 
+### 3. ID Selector
+ID selector seperti `#header` akan lebih diutamakan dibandingkan class, dsb. Ditandai dengan # didepannya, dan cara memakaikannya dengan menaruh `id=` pada dalam tag html.
 
-### 2. ID Selector
-### 3. Class, Pseudo-class, dan Attribute Selector
-### 4. Tag Selector
-### 5. !important
+### 4. Class, Pseudo-class, dan Attribute Selector
+Class, pseudo-class, dan Attribute selector seperti `.nav atau :hover` mempunyai prioritas yang sama. Jika kita menaruh CSS secara bersamaan, yang akan diutamakan adalah yang terakhir disematkan.
 
+### 5. Tag Selector
+Tag selector seperti `div > p {}`, dsb. akan diutamakan selanjutnya. Tag selector ini akan memakaikan CSS pada tag yang merupakan child dari tag di kiri.
+
+## Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan _responsive design_!
+
+Responsivitas pada web penting karena SEO Google dan lainnya lebih mementingkan website yang mempunyai responsivitas yang tinggi. Responsivitas itu sendiri dihitung dari bagaimana layout website ketika user menggunakan ukuran layar yang berbeda dan UX pada aplikasi itu sendiri seperti _loading time_ dan lainnya.
+
+Contoh aplikasi yang menerapkan responsive design biasanya berasal dari perusahaan besar seperti YouTube, Facebook, Instagram, dst. Sedangkan yang belum memakai biasanya merupakan situs lokal seperti situs toko rumahan.
+
+## Jelaskan perbedaan antara _margin, border,_ dan _padding_, serta cara untuk mengimplementasikan ketiga hal tersebut!
+
+### Margin
+Margin adalah ruang di luar elemen yang memisahkan elemen tersebut dari elemen lain. Margin ini, biasanya digunakan untuk memberi jarak antara elemen pada suatu div.
+
+Vanilla CSS
+```
+div {
+  margin: 20px; 
+}
+```
+
+TailwindCSS
+```
+<div class="border-2"> </div>
+```
+
+### Border 
+Border merupakan garis yang berada di sekitar elemen yang membungkus konten dan padding elemen. Border ini dapat memiliki ketebalan, warna, dan gaya yang berbeda.
+
+Vanilla CSS
+```
+div {
+  border: 2px solid black; 
+}
+```
+
+TailwindCSS
+```
+<div class="border-2"> </div>
+```
+
+### Padding
+Ruang di dalam elemen, antara konten elemen dan border. Padding memperbesar ruang di dalam elemen tanpa mengubah ukuran border atau margin.
+
+Vanilla CSS
+```
+div {
+  padding: 10px;  
+}
+```
+
+TailwindCSS
+```
+<div class="p-2"> </div>
+```
+
+## 
 
 # Tugas 4
 
