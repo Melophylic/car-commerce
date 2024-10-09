@@ -6,6 +6,213 @@ NPM: 2306275430
 
 Kelas: PBP C
 
+# Tugas 6
+
+## Manfaat JavaScript dalam pengembangan web
+
+### Interaktif
+JavaScript bikin halaman web jadi lebih hidup, bisa bikin animasi, validasi form langsung tanpa harus reload page, dan responsif sama user input.
+
+### Nge-handle logic di browser
+Banyak proses bisa dijalankan langsung di browser, jadi server nggak dibebani banget. Hasilnya, web jadi lebih cepat dan smooth buat pengguna.
+
+### Asynchronous 
+Dengan async/await, kita bisa ambil data dari server (misalnya API) tanpa nge-freeze aplikasi. Jadi user nggak nunggu loading lama.
+
+### Integrasi API mudah
+Bisa ambil data dari server atau API eksternal pakai fetch() atau XMLHttpRequest, terus langsung tampilin di halaman.
+Bisa lintas platform: Selain web, JavaScript juga bisa dipake buat bikin aplikasi mobile (kayak pake React Native) atau desktop (Electron).
+
+## Fungsi await dengan fetch()
+await fungsinya buat nungguin hasil dari promise yang dihasilkan oleh fetch(). Jadi, kode di bawahnya nggak bakal dieksekusi sebelum data dari fetch() selesai didapatkan. Misalnya pas kamu ambil data dari API, kalau nggak pakai await, kode bakal lanjut jalan meskipun data belum diambil, yang bisa bikin error atau data nggak ada. Intinya biar lebih terstruktur aja alurnya.
+
+## Mengapa kita perlu menggunakan decorator `csrf_exempt` pada view yang akan digunakan untuk AJAX `POST`?
+Kenapa perlu csrf_exempt buat AJAX POST? csrf_exempt dipake biar request AJAX yang masuk ke server nggak dicek CSRF token-nya. Biasanya server punya mekanisme keamanan buat ngecek apakah request beneran datang dari form di halaman web kita sendiri (pakai CSRF token). Tapi, kalau kita kirim data lewat AJAX dan nggak sertakan token itu, request bisa ditolak. Makanya pakai csrf_exempt buat nge-bypass cek itu, biar request AJAX bisa diproses.
+
+##  Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+Kenapa nggak pembersihan data input di frontend aja? Bersihin data di backend itu lebih aman. Kalau cuma di frontend, user bisa manipulasi data pake developer tools atau nge-bypass validasi yang ada di browser. Di backend, kita punya kontrol penuh buat ngecek dan validasi semua input sebelum disimpan atau diproses lebih lanjut. Intinya buat jaga-jaga dari hacker atau serangan yang eksploitasi input (kayak SQL injection, XSS, dsb.).
+
+## Step-by-Step Implementation
+
+Pertama saya mulai dari views.py dengan membuat `add_product_ajax`:
+> Method ini menggunakan `@csrf_exempt` dan `@require_POST` sebagai decoratornya untuk keamanan dan memastikan user menggunakan POST
+```
+@csrf_exempt
+@require_POST
+def add_product_ajax(request):
+    name = strip_tags(request.POST.get("name"))
+    price = strip_tags(request.POST.get("price"))
+    description = request.POST.get("description")
+    user = request.user
+
+    new_product = Product(
+        name = name,
+        price = price,
+        description = description,
+        user = user
+    )
+    new_product.save()
+
+    return HttpResponse(b"CREATED", status=201)
+```
+
+Selanjutnya, pada `urls.py` saya membuat pathing untuk method tersebut dan setelah itu saya mengacak-acak `main.html`.
+
+Pertama saya membuat `getProduct()` dan `renderProduct()` pada tag `<script>` agar render dilakukan oleh javascript.
+> pertama buat div kosong dengan `id` terlebih dahulu yang menggantikan semua div yang berhubungan dengan render sebelumnya.
+```
+...
+<div id="product-cards"></div>
+...
+```
+
+> selanjutnya saya buat `async function`:
+```
+<script>
+ async function getProducts() {
+            return fetch("{% url 'main:show_json' %}")
+            .then((response) => response.json())
+        }
+
+        async function renderProducts() {
+            document.getElementById("product-cards").innerHTML = "";
+            document.getElementById("product-cards").className = "stagger-box";
+            const products = await getProducts();
+
+            let htmlString = "";
+            let classNameString = "";
+
+            if (products.length === 0) {
+                classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+                htmlString = `
+                    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6" id="belum-ada">
+                        <img src="{% static 'image/caryellow.png' %}" alt="Sad face" class="w-72 mb-[-2rem]"/>
+                        <p class="text-center text-white mt-4 font-bold ">Belum ada data pada Car Commerce!</p>
+                    </div>
+                `
+            } else {
+                classNameString = "flex flex-wrap columns-1 sm:columns-2 lg:columns-3 gap-6 w-full h-max justify-evenly";
+                products.forEach((product) => {
+                    const name = DOMPurify.sanitize(product.fields.name);
+                    const price = product.fields.price;
+                    const description = DOMPurify.sanitize(product.fields.description);
+                    htmlString += `
+                        <div class="w-full max-w-sm bg-slate-50 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 stagger-box">
+                            <a href="#">
+                                <img class="p-8 rounded-t-lg" src="{% static 'image/caryellow.png' %}" alt="product image" />
+                            </a>
+                            <div class="px-5 pb-5">
+                                <a href="#">
+                                    <h5 class="text-xl font-semibold tracking-tight text-gray
+... <---> masih panjang
+```
+> bisa dilihat disini saya menggunakan `DOMpurify` untuk mengamankan sistem dari *XSS* _(Cross Site Scripting)_.
+
+Setelah itu saya membuat form modal menggunakan AJAX yang letaknya dibawah div kosong baru tadi:
+```
+<div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+                <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 border-b rounded-t">
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Add New Product Entry
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="closeModalBtn">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="px-6 py-4 space-y-6 form-style">
+                    <form id="productForm">
+                        <div class="mb-4">
+                            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-700" placeholder="Enter your product name" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                            <input type="number" id="price" name="price" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-700" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea id="description" name="description" rows="3" class="mt-1 block w-full h-52 resize-none border border-gray-300 rounded-md p-2 hover:border-yellow-700" placeholder="Description" required></textarea>
+                        </div>
+                    </form>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 p-6 border-t border-gray-200 rounded-b justify-center md:justify-end">
+                        <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton">Cancel</button>
+                        <button type="submit" id="submitProductEntry" form="productForm" class="bg-yellow-700 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg">Save</button>
+                    </div>
+                </div>
+            </div>   
+```
+
+> dan untuk bagian `<script>`:
+```
+const modal = document.getElementById('crudModal');
+        const modalContent = document.getElementById('crudModalContent');
+
+        function showModal() {
+            const modal = document.getElementById('crudModal');
+            const modalContent = document.getElementById('crudModalContent');
+
+            modal.classList.remove('hidden'); 
+            setTimeout(() => {
+                modalContent.classList.remove('opacity-0', 'scale-95');
+                modalContent.classList.add('opacity-100', 'scale-100');
+            }, 50); 
+        }
+        
+        function hideModal() {
+            const modal = document.getElementById('crudModal');
+            const modalContent = document.getElementById('crudModalContent');
+
+            modalContent.classList.remove('opacity-100', 'scale-100');
+            modalContent.classList.add('opacity-0', 'scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 150); 
+        }
+
+        document.getElementById("cancelButton").addEventListener("click", hideModal);
+        document.getElementById("closeModalBtn").addEventListener("click", hideModal);
+
+        function addProductEntry() {
+            fetch("{% url 'main:add_product_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#productForm')),
+            })
+            .then(response => renderProducts())
+
+            document.getElementById("productForm").reset(); 
+            document.querySelector("[data-modal-toggle='crudModal']").click();
+
+            return false;
+        }
+
+        document.getElementById("productForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            addProductEntry();
+        })
+```
+terakhir pada `forms.py`, saya menambahkan metode:
+```
+class ProductForm(ModelForm):
+    ...
+    def clean_name(self):
+        name = self.cleaned_data["name"]
+        return strip_tags(name)
+
+    def clean_price(self):
+        price = self.cleaned_data["price"]
+        return strip_tags(price)
+```
+
+
 # Tugas 5
 
 ## Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
